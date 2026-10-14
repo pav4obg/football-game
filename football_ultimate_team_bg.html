@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Футбол Ultimate</title>
+<style>
+:root{--bg:#06101d;--panel:#0a1b2d;--line:#087cc1;--cyan:#00d5ff;--green:#00e78a;--gold:#ffd44f;--muted:#a9c0d7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#10385a 0,#06101d 55%,#02070d 100%);color:#f4f8ff;font-family:Arial,Helvetica,sans-serif}
+button{cursor:pointer;border:0;font-weight:800;color:#06101d;background:linear-gradient(90deg,#00e7a0,#00bfff);padding:11px 16px;border-radius:22px;transition:.15s}button:hover{filter:brightness(1.15);transform:translateY(-1px)}button.secondary{background:#102e49;color:#eaf8ff;border:1px solid #168bca}button.gold{background:linear-gradient(90deg,#ffe878,#f4a900)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid #12618b;background:#030b14;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;font-size:21px;font-weight:900}.crest{width:44px;height:50px;display:grid;place-items:center;background:linear-gradient(135deg,#ffd65a,#8c5a00);clip-path:polygon(8% 0,92% 0,88% 70%,50% 100%,12% 70%);color:#07111e;font-size:24px}
+.resources{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-weight:bold}.resource{white-space:nowrap}.resource span{color:var(--gold)}
+.layout{display:grid;grid-template-columns:175px minmax(0,1fr);gap:12px;padding:12px;max-width:1600px;margin:auto}.sidebar{background:#061522;border:1px solid #0b4668;border-radius:12px;padding:8px;height:max-content;position:sticky;top:82px}.nav{display:flex;align-items:center;gap:10px;padding:13px 10px;margin:3px 0;border-radius:8px;background:transparent;color:#e5f4ff;text-align:left;width:100%;font-size:15px}.nav.active{background:linear-gradient(90deg,#00694d,#082c35);outline:1px solid #00d98c;color:#fff}.nav b{font-size:21px;width:26px;text-align:center}
+main{min-width:0}.topgrid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(220px,.8fr);gap:12px}.panel{background:linear-gradient(145deg,rgba(11,34,55,.97),rgba(2,12,22,.98));border:1px solid #087fc0;border-radius:12px;box-shadow:0 0 14px #001522;overflow:hidden}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:15px 17px 5px}.panelhead h2{margin:0;font-size:24px}.sub{color:var(--muted);margin:5px 0 0}.pitch{position:relative;min-height:480px;margin:8px 12px 12px;border:2px solid #3aa8e9;border-radius:8px;overflow:hidden;background:linear-gradient(180deg,rgba(0,15,30,.1),rgba(0,0,0,.12)),repeating-linear-gradient(0deg,#137d38 0 42px,#0e6b30 42px 84px)}
+.pitch:before{content:"";position:absolute;inset:12px;border:2px solid rgba(235,255,242,.68);border-radius:3px}.pitch:after{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px solid rgba(235,255,242,.65)}.center-circle{position:absolute;left:50%;top:50%;width:105px;height:105px;border:2px solid #ffffff99;border-radius:50%;transform:translate(-50%,-50%)}
+.formation{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-around;min-height:480px;padding:15px 12px;gap:10px}.playerrow{display:flex;justify-content:space-evenly;align-items:center;gap:7px}.playercard{width:100px;min-height:116px;position:relative;clip-path:polygon(10% 0,90% 0,100% 82%,50% 100%,0 82%);background:linear-gradient(145deg,#fff0a2,#a87314 23%,#071323 25%,#142b44 75%,#f7c94d);padding:3px;filter:drop-shadow(0 3px 5px #001)}.playerinner{height:100%;min-height:112px;clip-path:polygon(10% 0,90% 0,100% 82%,50% 100%,0 82%);background:linear-gradient(150deg,#172a40,#040b13 75%);text-align:center;padding:7px 4px 12px}.rating{position:absolute;top:5px;left:9px;color:#ffe36a;font-size:20px;font-weight:900}.position{position:absolute;top:27px;left:11px;font-size:11px;color:#bce7ff}.avatar{font-size:35px;margin-top:13px;line-height:38px}.playername{font-size:10px;font-weight:900;white-space:nowrap}.country{font-size:11px;margin-top:3px}.playercard.blue{background:linear-gradient(145deg,#8ef7ff,#087bdc 30%,#142b44 75%,#6df5ff)}.playercard.purple{background:linear-gradient(145deg,#ffd5ff,#b12cff 30%,#14203c 75%,#e78bff)}.playercard.green{background:linear-gradient(145deg,#d6ff8e,#1a9a50 30%,#142b44 75%,#8cffb8)}
+.rightstack{display:grid;gap:12px;align-content:start}.feature{padding:15px;min-height:155px;background:radial-gradient(circle at 85% 20%,#174d76,transparent 45%),linear-gradient(135deg,#0c2037,#020910)}.feature .emoji{font-size:36px;float:right}.feature h3{font-size:22px;margin:7px 0}.feature p{color:#c3d8e9;margin:5px 0 12px}.feature button{min-width:110px}
+.cardsgrid{display:grid;grid-template-columns:1.15fr 1fr 1fr 1fr;gap:12px;margin-top:12px}.smallpanel{padding:14px;min-height:205px}.smallpanel h3{margin:0 0 5px;font-size:17px}.smallpanel p{margin:0 0 12px;color:#b7cbe0;font-size:13px}.mini-cards{display:flex;gap:7px;justify-content:center;margin:10px 0 15px}.mini-card{border:2px solid #e7bf45;border-radius:8px;padding:8px 5px;text-align:center;min-width:65px;background:linear-gradient(145deg,#213750,#030912);font-size:11px}.mini-card strong{display:block;color:#ffdc64;font-size:20px}.mini-card span{display:block;margin-top:6px}.full{width:100%}.mission{font-size:12px;color:#dcecff;margin:10px 0}.bar{height:7px;background:#18334a;border-radius:8px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--green);width:0}
+.screen{display:none}.screen.active{display:block}.screenpanel{padding:18px;min-height:440px}.screenpanel h2{margin-top:0}.itemgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}.item{padding:14px;border:1px solid #155b83;border-radius:10px;background:#071727;text-align:center}.item .big{font-size:38px}.item h3{margin:7px 0}.item p{color:#b5cadc;font-size:13px;min-height:30px}.notice{padding:10px 13px;border:1px solid #1779a6;background:#09253a;border-radius:8px;margin:12px 0;color:#bfeeff}.footer{color:#7594ac;text-align:center;padding:20px;font-size:12px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow:auto}.nav{min-width:max-content;width:auto;padding:10px}.topgrid{grid-template-columns:1fr}.rightstack{grid-template-columns:repeat(3,1fr)}.cardsgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.pitch,.formation{min-height:440px}.playercard{width:88px}}
+@media(max-width:560px){header{align-items:flex-start;flex-direction:column}.resources{gap:9px;font-size:13px}.layout{padding:7px}.rightstack{grid-template-columns:1fr}.cardsgrid{grid-template-columns:1fr}.panelhead h2{font-size:20px}.pitch,.formation{min-height:390px}.playercard{width:70px;min-height:94px}.playerinner{min-height:90px}.avatar{font-size:27px;line-height:29px}.playername{font-size:8px}.rating{font-size:17px}.position{font-size:9px;top:23px}.formation{padding:12px 3px}.playerrow{gap:1px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand"><div class="crest">⚽</div><div>ФУТБОЛ ULTIMATE<div style="font-size:11px;color:#9db8ce;font-weight:normal;margin-top:3px">Твоят клуб • Ниво <span id="level">1</span></div></div></div>
+ <div class="resources"><div class="resource">🪙 <span id="coins">25 000</span></div><div class="resource">💎 <span id="gems">120</span></div><div class="resource">🏆 <span id="wins">0</span></div></div>
+</header>
+<div class="layout">
+ <aside class="sidebar">
+  <button class="nav active" data-screen="home"><b>⌂</b> Начало</button>
+  <button class="nav" data-screen="team"><b>🛡</b> Отбор</button>
+  <button class="nav" data-screen="packs"><b>▣</b> Пакети</button>
+  <button class="nav" data-screen="market"><b>⇄</b> Трансферен пазар</button>
+  <button class="nav" data-screen="tournaments"><b>🏆</b> Турнири</button>
+  <button class="nav" data-screen="missions"><b>◎</b> Мисии</button>
+  <button class="nav" data-screen="shop"><b>🛒</b> Магазин</button>
+ </aside>
+ <main>
+  <section class="screen active" id="home">
+   <div class="topgrid">
+    <div class="panel">
+     <div class="panelhead"><div><h2>МОЯТ ОТБОР</h2><div class="sub">Общ рейтинг: <b id="rating">86</b></div></div><button class="secondary" id="changeFormation">4-3-3 ✎</button></div>
+     <div class="pitch"><div class="center-circle"></div><div class="formation" id="formation"></div></div>
+    </div>
+    <div class="rightstack">
+     <div class="panel feature"><span class="emoji">⚽</span><h3>ИГРАЙ МАЧ</h3><p>Излез на терена и спечели монети!</p><button onclick="playMatch()">ИГРАЙ</button></div>
+     <div class="panel feature"><span class="emoji">🎁</span><h3>ПАКЕТИ</h3><p>Отвори пакет и открий нови футболисти.</p><button class="gold" onclick="openPack()">ОТВОРИ</button></div>
+     <div class="panel feature"><span class="emoji">🏆</span><h3>ТУРНИР</h3><p>Побеждавай и взимай награди.</p><button onclick="showScreen('tournaments')">ВИЖ</button></div>
+    </div>
+   </div>
+   <div class="cardsgrid">
+    <div class="panel smallpanel"><h3>ТРАНСФЕРЕН ПАЗАР</h3><p>Купи си звезда за отбора.</p><div class="mini-cards"><div class="mini-card"><strong>97</strong>⚡<span>МБАПЕ</span></div><div class="mini-card"><strong>96</strong>🐐<span>МЕСИ</span></div><div class="mini-card"><strong>95</strong>⭐<span>РОНАЛДО</span></div></div><button class="full" onclick="showScreen('market')">ОТВОРИ ПАЗАРА ›</button></div>
+    <div class="panel smallpanel"><h3>МОИТЕ КАРТИ</h3><p>Събирай футболисти и подобрявай отбора.</p><div class="mini-cards"><div class="mini-card"><strong id="owned">11</strong>🃏<span>КАРТИ</span></div><div class="mini-card"><strong id="teamrating">86</strong>★<span>РЕЙТИНГ</span></div></div><button class="full secondary" onclick="showScreen('team')">ВИЖ ОТБОРА</button></div>
+    <div class="panel smallpanel"><h3>ТРЕНИРАНЕ</h3><p>Подобри рейтинга на отбора.</p><div class="mini-cards"><div class="mini-card"><strong>⬆</strong><span>+1 РЕЙТИНГ</span></div></div><button class="full" onclick="trainTeam()">ТРЕНИРАЙ — 2 000 🪙</button></div>
+    <div class="panel smallpanel"><h3>МИСИИ</h3><div class="mission">Изиграй 3 мача<div class="bar"><i id="missionbar"></i></div></div><div class="mission" id="missionText">Прогрес: 0/3</div><button class="full secondary" onclick="showScreen('missions')">ВИЖ МИСИИТЕ</button></div>
+   </div>
+  </section>
+  <section class="screen" id="team"><div class="panel screenpanel"><h2>🛡 МОЯТ ОТБОР</h2><p class="sub">Твоите титуляри и техният рейтинг.</p><div class="itemgrid" id="teamGrid"></div><div class="notice">Съвет: отваряй пакети, за да откриваш по-силни играчи.</div></div></section>
+  <section class="screen" id="packs"><div class="panel screenpanel"><h2>🎁 ПАКЕТИ</h2><p class="sub">Всеки пакет ти дава нов футболист.</p><div class="itemgrid">
+   <div class="item"><div class="big">📦</div><h3>Основен пакет</h3><p>Случаен играч с рейтинг 75–89.</p><button onclick="openPack()">ОТВОРИ • 1 000 🪙</button></div>
+   <div class="item"><div class="big">💎</div><h3>Златен пакет</h3><p>Играч с рейтинг 82–94.</p><button class="gold" onclick="openGoldPack()">ОТВОРИ • 40 💎</button></div>
+  </div><div id="packResult" class="notice" hidden></div></div></section>
+  <section class="screen" id="market"><div class="panel screenpanel"><h2>⇄ ТРАНСФЕРЕН ПАЗАР</h2><p class="sub">Избери футболист, който да подсили отбора.</p><div class="itemgrid" id="marketGrid"></div></div></section>
+  <section class="screen" id="tournaments"><div class="panel screenpanel"><h2>🏆 ТУРНИРИ</h2><p>Победи съперниците, за да спечелиш монети.</p><div class="itemgrid"><div class="item"><div class="big">🥉</div><h3>Бронзова купа</h3><p>Награда: 3 000 монети.</p><button onclick="playTournament()">ИГРАЙ ТУРНИР</button></div><div class="item"><div class="big">🥇</div><h3>Златна купа</h3><p>Награда: 8 000 монети.</p><button class="gold" onclick="playTournament(true)">ЕЛИТЕН ТУРНИР</button></div></div><div id="tournamentResult" class="notice" hidden></div></div></section>
+  <section class="screen" id="missions"><div class="panel screenpanel"><h2>◎ МИСИИ</h2><div class="itemgrid"><div class="item"><div class="big">⚽</div><h3>Изиграй 3 мача</h3><p id="matchProgress">Прогрес: 0/3</p><button id="claimMatch" onclick="claimMission('matches')">ВЗЕМИ 2 000 🪙</button></div><div class="item"><div class="big">🎁</div><h3>Отвори 2 пакета</h3><p id="packProgress">Прогрес: 0/2</p><button id="claimPack" onclick="claimMission('packs')">ВЗЕМИ 1 500 🪙</button></div></div></div></section>
+  <section class="screen" id="shop"><div class="panel screenpanel"><h2>🛒 МАГАЗИН</h2><p class="sub">Вземи допълнителни монети или скъпоценни камъни.</p><div class="itemgrid"><div class="item"><div class="big">🪙</div><h3>Пачка монети</h3><p>+5 000 монети</p><button onclick="buyCoins()">ВЗЕМИ • 20 💎</button></div><div class="item"><div class="big">🎁</div><h3>Ежедневен подарък</h3><p>Безплатни монети за клуба.</p><button onclick="dailyGift()">ВЗЕМИ ПОДАРЪКА</button></div></div><div id="shopResult" class="notice" hidden></div></div></section>
+ </main>
+</div>
+<div class="footer">ФУТБОЛ ULTIMATE • Демонстрационна браузър игра • Прогресът се пази в този браузър</div>
+<script>
+const initialPlayers=[
+{name:"Мбапе",pos:"ЛЯ",rating:91,flag:"🇫🇷",emoji:"⚡",style:"gold"},
+{name:"Холанд",pos:"ЦН",rating:92,flag:"🇳🇴",emoji:"🦁",style:"blue"},
+{name:"Салах",pos:"ДЯ",rating:90,flag:"🇪🇬",emoji:"👑",style:"gold"},
+{name:"Белингам",pos:"ЦП",rating:88,flag:"🏴",emoji:"⭐",style:"purple"},
+{name:"Де Бройне",pos:"ЦОП",rating:87,flag:"🇧🇪",emoji:"🎯",style:"blue"},
+{name:"Модрич",pos:"ЦП",rating:86,flag:"🇭🇷",emoji:"🪄",style:"gold"},
+{name:"Ернандес",pos:"ЛЗ",rating:85,flag:"🇫🇷",emoji:"🛡",style:"gold"},
+{name:"Рюдигер",pos:"ЦЗ",rating:88,flag:"🇩🇪",emoji:"💪",style:"gold"},
+{name:"Ван Дайк",pos:"ЦЗ",rating:87,flag:"🇳🇱",emoji:"🧱",style:"gold"},
+{name:"Фримпонг",pos:"ДЗ",rating:84,flag:"🇳🇱",emoji:"💨",style:"gold"},
+{name:"Алисън",pos:"ВР",rating:89,flag:"🇧🇷",emoji:"🧤",style:"green"}
+];
+const marketPlayers=[
+{name:"Мбапе",pos:"НАП",rating:97,flag:"🇫🇷",emoji:"⚡",price:15000,style:"gold"},
+{name:"Меси",pos:"ДЯ",rating:96,flag:"🇦🇷",emoji:"🐐",price:14000,style:"purple"},
+{name:"Роналдо",pos:"НАП",rating:95,flag:"🇵🇹",emoji:"⭐",price:13000,style:"gold"},
+{name:"Винисиус",pos:"ЛЯ",rating:93,flag:"🇧🇷",emoji:"🔥",price:10000,style:"blue"},
+{name:"Кейн",pos:"ЦН",rating:91,flag:"🏴",emoji:"🎯",price:8000,style:"gold"},
+{name:"Ямал",pos:"ДЯ",rating:89,flag:"🇪🇸",emoji:"✨",price:6500,style:"blue"},
+{name:"Сон",pos:"ЛЯ",rating:88,flag:"🇰🇷",emoji:"💨",price:6000,style:"purple"},
+{name:"Родри",pos:"ЦОП",rating:90,flag:"🇪🇸",emoji:"🧠",price:7500,style:"green"}
+];
+let state={coins:25000,gems:120,wins:0,matches:0,packs:0,claimedMatches:false,claimedPacks:false,players:initialPlayers.map(p=>({...p})),level:1};
+try{const saved=localStorage.getItem("footballUltimateBG");if(saved){const s=JSON.parse(saved);if(s&&Array.isArray(s.players))state={...state,...s}}}catch(e){}
+const fmt=n=>Number(n).toLocaleString("bg-BG");
+function save(){try{localStorage.setItem("footballUltimateBG",JSON.stringify(state))}catch(e){}}
+function avg(){return Math.round(state.players.reduce((a,p)=>a+p.rating,0)/Math.max(1,state.players.length))}
+function updateTop(){document.getElementById("coins").textContent=fmt(state.coins);document.getElementById("gems").textContent=fmt(state.gems);document.getElementById("wins").textContent=state.wins;document.getElementById("level").textContent=state.level;document.getElementById("rating").textContent=avg();document.getElementById("teamrating").textContent=avg();document.getElementById("owned").textContent=state.players.length;document.getElementById("missionbar").style.width=Math.min(100,state.matches/3*100)+"%";document.getElementById("missionText").textContent=`Прогрес: ${Math.min(state.matches,3)}/3`;document.getElementById("matchProgress").textContent=`Прогрес: ${Math.min(state.matches,3)}/3`;document.getElementById("packProgress").textContent=`Прогрес: ${Math.min(state.packs,2)}/2`;document.getElementById("claimMatch").disabled=state.matches<3||state.claimedMatches;document.getElementById("claimPack").disabled=state.packs<2||state.claimedPacks;document.getElementById("claimMatch").textContent=state.claimedMatches?"ВЗЕТО ✓":"ВЗЕМИ 2 000 🪙";document.getElementById("claimPack").textContent=state.claimedPacks?"ВЗЕТО ✓":"ВЗЕМИ 1 500 🪙"}
+function card(p){return `<div class="playercard ${p.style||'gold'}"><div class="playerinner"><div class="rating">${p.rating}</div><div class="position">${p.pos}</div><div class="avatar">${p.emoji||'⚽'}</div><div class="playername">${p.name.toUpperCase()}</div><div class="country">${p.flag||'🌍'}</div></div></div>`}
+function renderFormation(){const el=document.getElementById("formation");const rows=[[state.players[0],state.players[1],state.players[2]],[state.players[3],state.players[4],state.players[5]],[state.players[6],state.players[7],state.players[8],state.players[9]],[state.players[10]]];el.innerHTML=rows.map(row=>`<div class="playerrow">${row.filter(Boolean).map(card).join("")}</div>`).join("")}
+function renderTeam(){document.getElementById("teamGrid").innerHTML=state.players.map((p,i)=>`<div class="item">${card(p)}<h3>${p.name}</h3><p>${p.pos} • Рейтинг ${p.rating}</p><button class="secondary" onclick="upgradePlayer(${i})">ТРЕНИРАЙ • 1 000 🪙</button></div>`).join("")}
+function renderMarket(){document.getElementById("marketGrid").innerHTML=marketPlayers.map((p,i)=>`<div class="item">${card(p)}<h3>${p.name}</h3><p>${p.pos} • Рейтинг ${p.rating}</p><button ${state.players.some(x=>x.name===p.name)?"disabled":""} onclick="buyPlayer(${i})">${state.players.some(x=>x.name===p.name)?"ВЕЧЕ Е В ОТБОРА":fmt(p.price)+" 🪙"}</button></div>`).join("")}
+function renderAll(){updateTop();renderFormation();renderTeam();renderMarket();save()}
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.screen===id));window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>showScreen(b.dataset.screen)));
+function openPack(gold=false){const cost=gold?40:1000;if(gold?state.gems<cost:state.coins<cost){alert(gold?"Нямаш достатъчно скъпоценни камъни!":"Нямаш достатъчно монети!");showScreen("packs");return}if(gold)state.gems-=cost;else state.coins-=cost;const pool=gold?[82,84,86,88,90,92,94]:[75,77,79,81,83,85,87,89];const rating=pool[Math.floor(Math.random()*pool.length)];const names=["Петров","Иванов","Георгиев","Димитров","Николов","Колев","Стоянов","Маринов"];const p={name:names[Math.floor(Math.random()*names.length)],pos:["ЦН","ЦП","ЦЗ","ЛЯ","ВР"][Math.floor(Math.random()*5)],rating,flag:"🌍",emoji:["⚽","🔥","⭐","🧤","💨"][Math.floor(Math.random()*5)],style:rating>=90?"purple":rating>=84?"blue":"gold"};state.players.push(p);state.packs++;document.getElementById("packResult").hidden=false;document.getElementById("packResult").innerHTML=`🎉 Получи <b>${p.name}</b> с рейтинг <b>${p.rating}</b>!`;renderAll();showScreen("packs")}
+function openGoldPack(){openPack(true)}
+function playMatch(){const team=avg(),opp=78+Math.floor(Math.random()*17),goals=Math.floor(Math.random()*4)+(team>opp?1:0),oppGoals=Math.floor(Math.random()*3)+(opp>team?1:0);state.matches++;let msg;if(goals>=oppGoals){state.wins++;state.coins+=1500;state.level=Math.max(state.level,1+Math.floor(state.wins/3));msg=`Победа ${goals}:${oppGoals}! Спечели 1 500 монети.`}else{state.coins+=500;msg=`Загуба ${goals}:${oppGoals}. Получаваш 500 монети за участието.`}renderAll();alert("⚽ КРАЙ НА МАЧА\n"+msg)}
+function trainTeam(){if(state.coins<2000){alert("Нямаш достатъчно монети!");return}state.coins-=2000;state.players.sort((a,b)=>a.rating-b.rating);state.players[0].rating=Math.min(99,state.players[0].rating+1);renderAll();alert("Тренировката завърши! Най-слабият ти играч получи +1 рейтинг.")}
+function upgradePlayer(i){if(state.coins<1000){alert("Нямаш достатъчно монети!");return}if(state.players[i].rating>=99){alert("Този играч вече е с максимален рейтинг!");return}state.coins-=1000;state.players[i].rating++;renderAll()}
+function buyPlayer(i){const p=marketPlayers[i];if(state.coins<p.price){alert("Нямаш достатъчно монети!");return}if(state.players.some(x=>x.name===p.name)){alert("Този играч вече е в отбора!");return}state.coins-=p.price;state.players.push({...p});renderAll();alert(`Добре дошъл в отбора, ${p.name}!`)}
+function playTournament(elite=false){const cost=elite?3000:0;if(state.coins<cost){alert("Нямаш достатъчно монети за елитния турнир!");return}state.coins-=cost;const chance=Math.random()+(avg()-85)*.012;const win=chance>.35;const reward=win?(elite?8000:3000):(elite?500:500);state.coins+=reward;if(win)state.wins++;const el=document.getElementById("tournamentResult");el.hidden=false;el.textContent=win?`🏆 Победа в турнира! Награда: ${fmt(reward)} монети.`:`Този път не спечели купата. Получаваш ${fmt(reward)} монети.`;renderAll()}
+function claimMission(type){if(type==="matches"){if(state.matches<3||state.claimedMatches)return;state.claimedMatches=true;state.coins+=2000}else{if(state.packs<2||state.claimedPacks)return;state.claimedPacks=true;state.coins+=1500}renderAll()}
+function buyCoins(){if(state.gems<20){alert("Нямаш достатъчно скъпоценни камъни!");return}state.gems-=20;state.coins+=5000;document.getElementById("shopResult").hidden=false;document.getElementById("shopResult").textContent="Получаваш 5 000 монети!";renderAll()}
+function dailyGift(){const key="footballUltimateGiftDate";const today=new Date().toDateString();if(localStorage.getItem(key)===today){alert("Вече взе днешния подарък. Ела утре пак!");return}state.coins+=2000;try{localStorage.setItem(key,today)}catch(e){}document.getElementById("shopResult").hidden=false;document.getElementById("shopResult").textContent="🎁 Получи дневния подарък: 2 000 монети!";renderAll()}
+document.getElementById("changeFormation").addEventListener("click",()=>alert("Използваната схема е 4-3-3. В тази демо версия схемата е фиксирана."));
+renderAll();
+</script>
+</body>
+</html>
